@@ -27,6 +27,8 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		StringBuilder sb = new StringBuilder();
+		BinaryTree tree = new BinaryTree();
+		
 		int option;
 		
 		while(true) {
@@ -51,6 +53,18 @@ public class Main {
 			case 2:
 				break;	
 			case 3:
+				System.out.println("Pré-ordem: ");
+				tree.preOrder();
+				System.out.println();
+				
+				System.out.println("Em ordem: ");
+				tree.inOrder();
+				System.out.println();
+				
+				System.out.println("Pós-ordem: ");
+				tree.postOrder();
+				System.out.println();
+				
 				break;	
 			case 4:
 				break;

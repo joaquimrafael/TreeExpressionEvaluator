@@ -51,5 +51,12 @@ public class Operando extends Node {
 	public float visitar() {
 		return valor;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.valor);
+		return sb.toString();
+	}
 
 }
