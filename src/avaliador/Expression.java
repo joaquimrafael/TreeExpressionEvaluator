@@ -20,6 +20,71 @@
 
 package avaliador;
 
-public class Expression {
+import java.util.Stack;
+import java.util.PriorityQueue;
+import java.util.List;
+import java.util.ArrayList;
 
+public class Expression {
+	public static boolean evaluate(StringBuilder sb) {
+		sb = clearString(sb);
+		return(checkBrackets(sb) && checkContent(sb) && checkFloat(sb));
+	}
+	
+	protected static boolean checkBrackets(StringBuilder sb) {
+		Stack<Character> s = new Stack<Character>();
+		for(int i=0;i<sb.length();i++) {
+			if(sb.charAt(i) == '(') {
+				s.push(sb.charAt(i));
+			}else {
+				if(sb.charAt(i) == ')') {
+					if(s.isEmpty()) {
+						return(false);
+					}
+					s.pop();
+				}
+			}
+		}
+		return(s.isEmpty());
+	}
+	
+	protected static StringBuilder clearString(StringBuilder sb) {
+		String s = sb.toString().trim();
+		sb.setLength(0);
+		sb.append(s);
+		return(sb);
+	}
+	
+	protected static boolean checkContent(StringBuilder sb) {
+		List<Character> l = new ArrayList<>();
+		l.add('+');l.add('-');l.add('*');l.add('/');l.add('(');l.add(')');l.add('.');
+		for(int i=0;i<sb.length();i++) {
+			Character c = sb.charAt(i);
+			if(!c.isDigit(0) || !l.contains(c)) {
+				return(false);
+			}
+		}
+		return(true);
+	}
+	
+	protected static boolean checkFloat(StringBuilder sb) {
+		for(int i=0;i<sb.length();i++) {
+			if(sb.charAt(i) == '.') {
+				if(i!=0 && i!=sb.length()-1) {
+					Character cBefore = sb.charAt(i-1);
+					Character cAfter = sb.charAt(i+1);
+					if(cBefore.isDigit(0) && cAfter.isDigit(0)) {
+						return(true);
+					}else {
+						return(false);
+					}
+				}else {
+					return(false);
+				}
+			}
+		}
+		return(true);
+	}
+	
+	
 }
