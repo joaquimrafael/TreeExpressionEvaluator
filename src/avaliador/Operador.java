@@ -62,5 +62,12 @@ public class Operador extends Node{
 				return Float.NaN;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.operador);
+		return sb.toString();
+	}
 
 }
