@@ -52,6 +52,11 @@ public class Expression {
 		String s = sb.toString().trim();
 		sb.setLength(0);
 		sb.append(s);
+		for(int i=0;i<sb.length();i++) {
+			if(sb.charAt(i)==' ' || sb.charAt(i) == '\t' || sb.charAt(i) ==  '	') {
+				sb.deleteCharAt(i);
+			}
+		}
 		return(sb);
 	}
 	
@@ -60,31 +65,26 @@ public class Expression {
 		l.add('+');l.add('-');l.add('*');l.add('/');l.add('(');l.add(')');l.add('.');
 		for(int i=0;i<sb.length();i++) {
 			Character c = sb.charAt(i);
-			if(!c.isDigit(0) || !l.contains(c)) {
+			if(!Character.isDigit(c) || !l.contains(c)) {
 				return(false);
 			}
 		}
 		return(true);
 	}
 	
-	protected static boolean checkFloat(StringBuilder sb) {
-		for(int i=0;i<sb.length();i++) {
-			if(sb.charAt(i) == '.') {
-				if(i!=0 && i!=sb.length()-1) {
-					Character cBefore = sb.charAt(i-1);
-					Character cAfter = sb.charAt(i+1);
-					if(cBefore.isDigit(0) && cAfter.isDigit(0)) {
-						return(true);
-					}else {
-						return(false);
-					}
-				}else {
-					return(false);
-				}
-			}
-		}
-		return(true);
-	}
+    protected static boolean checkFloat(StringBuilder sb) {
+        boolean foundDot = false;
+        for(int i = 0;i < sb.length();i++) {
+            char current = sb.charAt(i);
+            if(current == '.') {
+                if(foundDot || i == 0 || i == sb.length() - 1 || !Character.isDigit(sb.charAt(i - 1)) || !Character.isDigit(sb.charAt(i + 1))) {
+                    return(false);
+                }
+                foundDot = true;
+            }
+        }
+        return(true);
+    }
 	
 	
 }
