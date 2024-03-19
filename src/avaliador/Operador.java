@@ -26,6 +26,7 @@ public class Operador extends Node{
 	
 	public Operador() {
 		super();
+		this.operador = '\0';
 	}
 	
 	public Operador(char operador) {
@@ -40,6 +41,16 @@ public class Operador extends Node{
 	
 	public Operador(char operador, Node left, Node right, Node parent) {
 		super(left,right,parent);
+		this.operador = operador;
+	}
+	
+	public Operador(Node left, Node right) {
+		super(left,right);
+		this.operador = '\0';
+	}
+	
+	public Operador(char operador, Node left, Node right) {
+		super(left,right);
 		this.operador = operador;
 	}
 	
