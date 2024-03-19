@@ -83,6 +83,7 @@ public class Main {
 				break;
 			case 5:
 				System.out.println("Saindo...");
+				input.close();
 				return;
 				
 			default:
