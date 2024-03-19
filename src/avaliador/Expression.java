@@ -161,7 +161,6 @@ public class Expression {
     			l.add(s.substring(startIndex,stopIndex));
     			i--;
     		}else {
-    			System.out.println(s.charAt(i));
     			if(s.charAt(i) != '(' && s.charAt(i) != ')') {
     				l.add(String.valueOf(s.charAt(i)));
     			}
