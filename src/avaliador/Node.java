@@ -45,6 +45,11 @@ public abstract class Node {
 		this.left = left;
 		this.right = right;
 	}
+	
+	public Node(Node left, Node right) { 
+		this.left = left;
+		this.right = right;
+	}
 
 	public Node getParent() { return parent; }
 

@@ -28,6 +28,7 @@ public class Main {
 		Scanner input = new Scanner(System.in);
 		StringBuilder sb = new StringBuilder();
 		BinaryTree tree = new BinaryTree();
+		Boolean created = false;
 		
 		int option;
 		
@@ -40,6 +41,7 @@ public class Main {
 				+ "4. Cálculo da expressão (realizando o percurso da árvore).\r\n"
 				+ "5. Encerramento do programa.\r\n"
 				+ "Digite a opção desejada:");
+			System.out.println("Expressão atual: "+sb.toString());
 			option = input.nextInt();
 			
 			switch(option) {
@@ -48,11 +50,17 @@ public class Main {
 				System.out.println("Digite a expressão a ser avaliada: ");
 				String expression = read.nextLine();
 				sb.append(expression);
-				System.out.println(sb.toString());
+				created = true;
 				break;
 			case 2:
+				if(!created) {
+					System.out.println("Primeiro insira a expressão a ser avaliada!");
+				}else {}
 				break;	
 			case 3:
+				if(!created) {
+					System.out.println("Primeiro insira a expressão a ser avaliada!");
+				}else {
 				System.out.println("Pré-ordem: ");
 				tree.preOrder();
 				System.out.println();
@@ -64,9 +72,14 @@ public class Main {
 				System.out.println("Pós-ordem: ");
 				tree.postOrder();
 				System.out.println();
-				
+				}
 				break;	
 			case 4:
+				if(!created) {
+					System.out.println("Primeiro insira a expressão a ser avaliada!");
+				}else {
+					
+				}
 				break;
 			case 5:
 				System.out.println("Saindo...");

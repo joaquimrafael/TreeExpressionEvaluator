@@ -26,6 +26,7 @@ public class Operando extends Node {
 	
 	public Operando() {
 		super();
+		this.valor = Float.NaN;
 	}
 	
 	public Operando(float valor) {
@@ -41,6 +42,11 @@ public class Operando extends Node {
 	public Operando(float valor, Node left, Node right, Node parent) {
 		super(left,right,parent);
 		this.valor = valor;
+	}
+	
+	public Operando(Node left, Node right) {
+		super(left,right);
+		this.valor = Float.NaN;
 	}
 	
 	public float getValor() { return valor; }
