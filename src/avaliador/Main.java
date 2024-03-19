@@ -21,6 +21,11 @@
 package avaliador;
 
 import java.util.Scanner;
+import java.util.Stack;
+
+import java.util.PriorityQueue;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -31,6 +36,13 @@ public class Main {
 		Boolean created = false;
 		
 		int option;
+		
+		StringBuilder s = new StringBuilder("(3+6)*(4-1)+5");
+		List<String> l = Expression.tokenizer(s);
+		System.out.println(l);
+		String s2 = Expression.conversionPolishNotation(s);
+		System.out.println(s2);
+		System.out.println(Expression.evaluate(s));
 		
 		while(true) {
 		

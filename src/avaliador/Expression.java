@@ -67,7 +67,7 @@ public class Expression {
 		l.add('+');l.add('-');l.add('*');l.add('/');l.add('(');l.add(')');l.add('.');
 		for(int i=0;i<sb.length();i++) {
 			Character c = sb.charAt(i);
-			if(!Character.isDigit(c) || !l.contains(c)) {
+			if(!Character.isDigit(c) && !l.contains(c)) {
 				return(false);
 			}
 		}
@@ -93,7 +93,7 @@ public class Expression {
         String operands = "+-*/^";
         StringBuilder output = new StringBuilder();
         for (int i=0;i<expression.length();i++) {
-            if (Character.isLetter(expression.charAt(i))) {
+            if (Character.isDigit(expression.charAt(i))) {
                 output.append(expression.charAt(i));
             } else if(operands.contains(String.valueOf(expression.charAt(i)))){
                 while(!s.isEmpty() && (precedence(expression.charAt(i))<=precedence(s.peek()))){
@@ -154,13 +154,15 @@ public class Expression {
     	for(int i=0;i<s.length();i++) {
     		if(especial.indexOf(s.charAt(i))==-1) {
     			int startIndex = i;
-    			while(especial.indexOf(s.charAt(i))==-1) {
+    			while(i<s.length() && especial.indexOf(s.charAt(i))==-1) {
     				i++;
     			}
     			int stopIndex = i;
     			l.add(s.substring(startIndex,stopIndex));
+    			i--;
     		}else {
-    			if(s.charAt(i) != '(' || s.charAt(i) != ')') {
+    			System.out.println(s.charAt(i));
+    			if(s.charAt(i) != '(' && s.charAt(i) != ')') {
     				l.add(String.valueOf(s.charAt(i)));
     			}
     		}
