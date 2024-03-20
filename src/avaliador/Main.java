@@ -37,14 +37,14 @@ public class Main {
 		
 		int option;
 		
-		StringBuilder s = new StringBuilder("(3+6)*(4-1)+5");
+		/*StringBuilder s = new StringBuilder("(3+6)*(4-1)+5");
 		List<String> l = Expression.tokenizer(s);
 		String[] array = l.toArray(new String[l.size()]);
 		String s2 = Expression.conversionPolishNotation(s);
 		System.out.println(s2);
 		System.out.println(Expression.evaluate(s));
 		BinaryTree bt = createBinaryTree(s2, array);
-		System.out.println(bt.getRoot().visitar());
+		System.out.println(bt.getRoot().visitar());*/
 		
 		while(true) {
 		
@@ -60,6 +60,7 @@ public class Main {
 			
 			switch(option) {
 			case 1:
+				sb.setLength(0);
 				Scanner read = new Scanner(System.in);
 				System.out.println("Digite a expressão a ser avaliada: ");
 				String expression = read.nextLine();
@@ -69,7 +70,12 @@ public class Main {
 			case 2:
 				if(!created) {
 					System.out.println("Primeiro insira a expressão a ser avaliada!");
-				}else {}
+				}else {
+					String postOrder = Expression.conversionPolishNotation(sb);
+					List<String> tokenList = Expression.tokenizer(sb);
+					String[] tokenArray = tokenList.toArray(new String[tokenList.size()]);
+					tree = createBinaryTree(postOrder, tokenArray);
+				}
 				break;	
 			case 3:
 				if(!created) {
@@ -92,7 +98,7 @@ public class Main {
 				if(!created) {
 					System.out.println("Primeiro insira a expressão a ser avaliada!");
 				}else {
-					
+					System.out.println("Resultado: "+ tree.getRoot().visitar()); 
 				}
 				break;
 			case 5:
