@@ -40,12 +40,11 @@ public class Main {
 		StringBuilder s = new StringBuilder("(3+6)*(4-1)+5");
 		List<String> l = Expression.tokenizer(s);
 		String[] array = l.toArray(new String[l.size()]);
-		for(int i=0;i<array.length;i++) {
-			System.out.println(array[i]);
-		}
 		String s2 = Expression.conversionPolishNotation(s);
 		System.out.println(s2);
 		System.out.println(Expression.evaluate(s));
+		BinaryTree bt = createBinaryTree(s2, array);
+		System.out.println(bt.getRoot().visitar());
 		
 		while(true) {
 		
@@ -109,38 +108,38 @@ public class Main {
 		}
 	}
 	
-	private static BinaryTree createBinaryTree(StringBuilder sb, String[] token) {
+	private static BinaryTree createBinaryTree(String st, String[] token) {
 		String operators = "+-*/";
 		Stack<Node> s = new Stack<Node>();
 		BinaryTree bt = new BinaryTree();
-		boolean found = false;
-		for(int i=0;i<sb.length();i++) {
-			int j=i;
-			while(j<token.length) {
-				if(sb.substring(i, j+1).equals(token[i])) {
-					found = true;
-					break;
+		String[] tokenPostOrder = new String[st.length()];
+		int index = 0;
+	    for(int i = 0; i < st.length();i++) {
+	        for(int j =i+1; j<=st.length();j++) {
+	            String substring = st.substring(i,j);
+	            for(int k=0; k<token.length;k++) {
+	                if(substring.equals(token[k])) {
+	                    tokenPostOrder[index++] = substring;
+	                    token[k] = null;
+	                    break;
+	                }
+	            }
+	        }
+	    }
+	    
+		for(int i=0;i<st.length();i++) {
+			if(Expression.isNumber(tokenPostOrder[i])) {
+				s.push(new Operando(Float.parseFloat(tokenPostOrder[i])));
+			}else {
+				if(operators.indexOf(tokenPostOrder[i])!=-1) {
+					Node rightChild = s.pop();
+					Node leftChild = s.pop();
+					s.push(new Operador(st.charAt(i),leftChild,rightChild));
 				}
-				j++;
 			}
-			if(found) {
-				if(Expression.isNumber(sb.substring(i, j+1))) {
-					s.push(new Operando(Float.parseFloat(sb.substring(i, j+1))));
-				}else {
-					if(operators.indexOf(sb.substring(i, j+1))!=-1) {
-						Node rightChild = s.pop();
-						Node leftChild = s.pop();
-						s.push(new Operador(sb.charAt(i),leftChild,rightChild));
-					}
-				}
-				
-			}
-			token[i] = null;
-			found = false;
-			i = j+1;
 		}
-		bt.setRoot((Operador)s.pop());
+
+		bt.setRoot(s.pop());
 		return(bt);
 	}
-
 }
