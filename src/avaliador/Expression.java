@@ -174,7 +174,7 @@ public class Expression {
     public static boolean isNumber(String s) {
     	try {
     		Float.parseFloat(s);
-    		return(false);
+    		return(true);
     	}catch(Exception e) {
     		return(false);
     	}

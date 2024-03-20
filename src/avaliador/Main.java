@@ -108,5 +108,39 @@ public class Main {
 		
 		}
 	}
+	
+	private static BinaryTree createBinaryTree(StringBuilder sb, String[] token) {
+		String operators = "+-*/";
+		Stack<Node> s = new Stack<Node>();
+		BinaryTree bt = new BinaryTree();
+		boolean found = false;
+		for(int i=0;i<sb.length();i++) {
+			int j=i;
+			while(j<token.length) {
+				if(sb.substring(i, j+1).equals(token[i])) {
+					found = true;
+					break;
+				}
+				j++;
+			}
+			if(found) {
+				if(Expression.isNumber(sb.substring(i, j+1))) {
+					s.push(new Operando(Float.parseFloat(sb.substring(i, j+1))));
+				}else {
+					if(operators.indexOf(sb.substring(i, j+1))!=-1) {
+						Node rightChild = s.pop();
+						Node leftChild = s.pop();
+						s.push(new Operador(sb.charAt(i),leftChild,rightChild));
+					}
+				}
+				
+			}
+			token[i] = null;
+			found = false;
+			i = j+1;
+		}
+		bt.setRoot((Operador)s.pop());
+		return(bt);
+	}
 
 }
