@@ -39,7 +39,10 @@ public class Main {
 		
 		StringBuilder s = new StringBuilder("(3+6)*(4-1)+5");
 		List<String> l = Expression.tokenizer(s);
-		System.out.println(l);
+		String[] array = l.toArray(new String[l.size()]);
+		for(int i=0;i<array.length;i++) {
+			System.out.println(array[i]);
+		}
 		String s2 = Expression.conversionPolishNotation(s);
 		System.out.println(s2);
 		System.out.println(Expression.evaluate(s));
