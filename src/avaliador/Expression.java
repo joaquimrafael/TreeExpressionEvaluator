@@ -24,6 +24,7 @@ import java.util.Stack;
 
 import java.util.PriorityQueue;
 import java.util.List;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class Expression {
@@ -169,4 +170,13 @@ public class Expression {
     	return(l);
     }
 	
+    
+    public static boolean isNumber(String s) {
+    	try {
+    		Float.parseFloat(s);
+    		return(false);
+    	}catch(Exception e) {
+    		return(false);
+    	}
+    }
 }
