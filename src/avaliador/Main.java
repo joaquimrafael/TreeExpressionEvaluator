@@ -48,6 +48,12 @@ public class Main {
 			
 			switch(option) {
 			case 1:
+<<<<<<< HEAD
+				Scanner read = new Scanner(System.in);
+				System.out.println("Digite a expressão a ser avaliada: ");
+				expression = read.nextLine();
+				created = true;
+=======
 				while(true) {
 					Scanner read = new Scanner(System.in);
 					System.out.println("Digite a expressão a ser avaliada: ");
@@ -64,14 +70,25 @@ public class Main {
 				
 					break;
 				}
+>>>>>>> b8898d703ba11d63bc079ca97f050703b63a47e0
 				break;
 			case 2:
 				if(!created) {
 					System.out.println("Primeiro insira a expressão a ser avaliada!");
 				}else {
+<<<<<<< HEAD
+					System.out.println(Expression.evaluate(expression));
+					if(Expression.evaluate(expression)) {
+						expression = Expression.clearString(expression);
+						tree = createBinaryTree(expression);
+					}else {
+						throw new RuntimeException("Erro de sintaxe detectado");
+					}
+=======
 					expression = Expression.clearString(expression);
 					tree.setRoot(null);
 					tree = createBinaryTree(expression);
+>>>>>>> b8898d703ba11d63bc079ca97f050703b63a47e0
 				}
 				break;	
 			case 3:
