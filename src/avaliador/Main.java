@@ -23,28 +23,15 @@ package avaliador;
 import java.util.Scanner;
 import java.util.Stack;
 
-import java.util.PriorityQueue;
-import java.util.List;
-import java.util.ArrayList;
-
 public class Main {
 
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		StringBuilder sb = new StringBuilder();
+		String expression = "";
 		BinaryTree tree = new BinaryTree();
 		Boolean created = false;
 		
 		int option;
-		
-		/*StringBuilder s = new StringBuilder("(3+6)*(4-1)+5");
-		List<String> l = Expression.tokenizer(s);
-		String[] array = l.toArray(new String[l.size()]);
-		String s2 = Expression.conversionPolishNotation(s);
-		System.out.println(s2);
-		System.out.println(Expression.evaluate(s));
-		BinaryTree bt = createBinaryTree(s2, array);
-		System.out.println(bt.getRoot().visitar());*/
 		
 		while(true) {
 		
@@ -53,28 +40,29 @@ public class Main {
 				+ "2. Criação da árvore binária de expressão aritmética.\r\n"
 				+ "3. Exibição da árvore binária de expressão aritmética.\r\n"
 				+ "4. Cálculo da expressão (realizando o percurso da árvore).\r\n"
-				+ "5. Encerramento do programa.\r\n"
-				+ "Digite a opção desejada:");
-			System.out.println("Expressão atual: "+sb.toString());
+				+ "5. Encerramento do programa.\r\n");
+			System.out.println("Expressão atual em pós ordem: "+ Expression.conversionPolishNotation(expression));
+			System.out.println("Digite a opção desejada: ");
 			option = input.nextInt();
 			
 			switch(option) {
 			case 1:
-				sb.setLength(0);
 				Scanner read = new Scanner(System.in);
 				System.out.println("Digite a expressão a ser avaliada: ");
-				String expression = read.nextLine();
-				sb.append(expression);
+				expression = read.nextLine();
 				created = true;
 				break;
 			case 2:
 				if(!created) {
 					System.out.println("Primeiro insira a expressão a ser avaliada!");
 				}else {
-					String postOrder = Expression.conversionPolishNotation(sb);
-					List<String> tokenList = Expression.tokenizer(sb);
-					String[] tokenArray = tokenList.toArray(new String[tokenList.size()]);
-					tree = createBinaryTree(postOrder, tokenArray);
+					System.out.println(Expression.evaluate(expression));
+					if(Expression.evaluate(expression)) {
+						expression = Expression.clearString(expression);
+						tree = createBinaryTree(expression);
+					}else {
+						throw new RuntimeException("Erro de sintaxe detectado");
+					}
 				}
 				break;	
 			case 3:
@@ -114,38 +102,25 @@ public class Main {
 		}
 	}
 	
-	private static BinaryTree createBinaryTree(String st, String[] token) {
+	private static BinaryTree createBinaryTree(String s) {
 		String operators = "+-*/";
-		Stack<Node> s = new Stack<Node>();
+		Stack<Node> stack = new Stack<Node>();
 		BinaryTree bt = new BinaryTree();
-		String[] tokenPostOrder = new String[st.length()];
-		int index = 0;
-	    for(int i = 0; i < st.length();i++) {
-	        for(int j =i+1; j<=st.length();j++) {
-	            String substring = st.substring(i,j);
-	            for(int k=0; k<token.length;k++) {
-	                if(substring.equals(token[k])) {
-	                    tokenPostOrder[index++] = substring;
-	                    token[k] = null;
-	                    break;
-	                }
-	            }
-	        }
-	    }
-	    
-		for(int i=0;i<st.length();i++) {
+		String[] tokenPostOrder = Expression.tokenizerPostOrder(s);
+		s = Expression.conversionPolishNotation(s);
+		for(int i=0;i<tokenPostOrder.length;i++) {
 			if(Expression.isNumber(tokenPostOrder[i])) {
-				s.push(new Operando(Float.parseFloat(tokenPostOrder[i])));
+				stack.push(new Operando(Float.parseFloat(tokenPostOrder[i])));
 			}else {
 				if(operators.indexOf(tokenPostOrder[i])!=-1) {
-					Node rightChild = s.pop();
-					Node leftChild = s.pop();
-					s.push(new Operador(st.charAt(i),leftChild,rightChild));
+					Node rightChild = stack.pop();
+					Node leftChild = stack.pop();
+					stack.push(new Operador(tokenPostOrder[i].charAt(0),leftChild,rightChild));
 				}
 			}
 		}
 
-		bt.setRoot(s.pop());
+		bt.setRoot(stack.pop());
 		return(bt);
 	}
 }
