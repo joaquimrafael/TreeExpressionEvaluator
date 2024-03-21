@@ -56,16 +56,9 @@ public class Expression {
 	
 	public static String clearString(String s) {
 		s = s.trim();
-		StringBuilder sb = new StringBuilder();
-		sb.append(s);
-		int length = sb.length();
-		for(int i=0;i<length;i++) {
-			if(sb.charAt(i)==' ' || sb.charAt(i) == '\t' || sb.charAt(i) ==  '	') {
-				sb.deleteCharAt(i);
-				length = sb.length();
-			}
-		}
-		s = sb.toString();
+		s = s.replaceAll(" ", "");
+		s = s.replaceAll("	", "");
+		s = s.replaceAll("\t", "");
 		return(s);
 	}
 	
@@ -182,9 +175,6 @@ public class Expression {
 	                }
 	            }
 	        }
-	    }
-	    for(int i = 0; i < tokenPostOrder.length;i++) {
-	    	System.out.println(tokenPostOrder[i]);
 	    }
 	    return(tokenPostOrder);
     }
