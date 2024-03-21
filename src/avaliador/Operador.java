@@ -9,14 +9,16 @@
  * https://youtu.be/Gt2yBZAhsGM?si=WNOSZxaiCWmrA-sO
  * https://www.geeksforgeeks.org/binary-tree-data-structure/
  * https://www.ime.usp.br/~pf/mac0122-2003/aulas/bin-trees.html
- * https://codegym.cc/pt/groups/posts/pt.307.java-queue-interface-e-suas-implementacoes
- * https://github.com/egonSchiele/grokking_algorithms/tree/master/06_breadth-first_search/java/01_breadth_first_search/src
+ * https://www.devmedia.com.br/como-trabalhar-com-a-classe-stack/2966
+ * https://docs.oracle.com/en/java/
+ * https://github.com/joaquimrafael/Expression_Evaluator
  * 
  *  e materias de sala:
  *  Revisão POO com Java (André Kishimoto)
  *  Herança em Java (André Kishimoto)
  *  Árvores - fundamentos (André Kishimoto)
  */
+
 package avaliador;
 
 public class Operador extends Node{

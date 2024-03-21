@@ -9,8 +9,9 @@
  * https://youtu.be/Gt2yBZAhsGM?si=WNOSZxaiCWmrA-sO
  * https://www.geeksforgeeks.org/binary-tree-data-structure/
  * https://www.ime.usp.br/~pf/mac0122-2003/aulas/bin-trees.html
- * https://codegym.cc/pt/groups/posts/pt.307.java-queue-interface-e-suas-implementacoes
- * https://github.com/egonSchiele/grokking_algorithms/tree/master/06_breadth-first_search/java/01_breadth_first_search/src
+ * https://www.devmedia.com.br/como-trabalhar-com-a-classe-stack/2966
+ * https://docs.oracle.com/en/java/
+ * https://github.com/joaquimrafael/Expression_Evaluator
  * 
  *  e materias de sala:
  *  Revisão POO com Java (André Kishimoto)
@@ -28,7 +29,6 @@ import java.util.ArrayList;
 public class Expression {
 	public static boolean evaluate(String s) {
 		s = clearString(s);
-		System.out.println(s);
 		try {
 			checkBrackets(s); checkContent(s); checkFloat(s); checkOperands(s);
 		}catch(RuntimeException e) {
@@ -170,6 +170,7 @@ public class Expression {
 		int index = 0;
 		String[] token = tokenizer(s);
 		s = conversionPolishNotation(s);
+		
 		String[] tokenPostOrder = new String[token.length];
 	    for(int i = 0; i < s.length();i++) {
 	        for(int j = i+1; j<=s.length();j++) {
@@ -182,6 +183,9 @@ public class Expression {
 	                }
 	            }
 	        }
+	    }
+	    for(int i = 0; i < tokenPostOrder.length;i++) {
+	    	System.out.println(tokenPostOrder[i]);
 	    }
 	    return(tokenPostOrder);
     }
