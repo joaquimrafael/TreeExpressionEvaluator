@@ -82,7 +82,7 @@ public class Expression {
 	}
 	
     private static boolean checkFloat(String s) {
-        String operands = "+-/*";
+        String operands = "+-/*()";
         for(int i = 0;i < s.length();i++) {
             char current = s.charAt(i);
             if(current == '.') {
