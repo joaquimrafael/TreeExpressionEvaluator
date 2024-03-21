@@ -9,8 +9,9 @@
  * https://youtu.be/Gt2yBZAhsGM?si=WNOSZxaiCWmrA-sO
  * https://www.geeksforgeeks.org/binary-tree-data-structure/
  * https://www.ime.usp.br/~pf/mac0122-2003/aulas/bin-trees.html
- * https://codegym.cc/pt/groups/posts/pt.307.java-queue-interface-e-suas-implementacoes
- * https://github.com/egonSchiele/grokking_algorithms/tree/master/06_breadth-first_search/java/01_breadth_first_search/src
+ * https://www.devmedia.com.br/como-trabalhar-com-a-classe-stack/2966
+ * https://docs.oracle.com/en/java/
+ * https://github.com/joaquimrafael/Expression_Evaluator
  * 
  *  e materias de sala:
  *  Revisão POO com Java (André Kishimoto)
@@ -28,7 +29,10 @@ import java.util.ArrayList;
 public class Expression {
 	public static boolean evaluate(String s) {
 		s = clearString(s);
+<<<<<<< HEAD
 		System.out.println(s);
+=======
+>>>>>>> b8898d703ba11d63bc079ca97f050703b63a47e0
 		try {
 			checkBrackets(s); checkContent(s); checkFloat(s); checkOperands(s);
 		}catch(RuntimeException e) {
@@ -82,14 +86,21 @@ public class Expression {
 	}
 	
     private static boolean checkFloat(String s) {
+<<<<<<< HEAD
         boolean foundDot = false;
         for(int i = 0;i < s.length();i++) {
             char current = s.charAt(i);
             if(current == '.') {
                 if(foundDot || i == 0 || i == s.length() - 1 || !Character.isDigit(s.charAt(i - 1)) || !Character.isDigit(s.charAt(i + 1))) {
+=======
+        String operands = "+-/*()";
+        for(int i = 0;i < s.length();i++) {
+            char current = s.charAt(i);
+            if(current == '.') {
+                if(i == 0 || i == s.length() - 1 || operands.contains(String.valueOf(s.charAt(i+1))) || operands.contains(String.valueOf(s.charAt(i+1)))) {
+>>>>>>> b8898d703ba11d63bc079ca97f050703b63a47e0
                     throw new RuntimeException("Existe número Float inválido!");
                 }
-                foundDot = true;
             }
         }
         return(true);
@@ -170,6 +181,10 @@ public class Expression {
 		int index = 0;
 		String[] token = tokenizer(s);
 		s = conversionPolishNotation(s);
+<<<<<<< HEAD
+=======
+		
+>>>>>>> b8898d703ba11d63bc079ca97f050703b63a47e0
 		String[] tokenPostOrder = new String[token.length];
 	    for(int i = 0; i < s.length();i++) {
 	        for(int j = i+1; j<=s.length();j++) {
@@ -183,6 +198,12 @@ public class Expression {
 	            }
 	        }
 	    }
+<<<<<<< HEAD
+=======
+	    for(int i = 0; i < tokenPostOrder.length;i++) {
+	    	System.out.println(tokenPostOrder[i]);
+	    }
+>>>>>>> b8898d703ba11d63bc079ca97f050703b63a47e0
 	    return(tokenPostOrder);
     }
     

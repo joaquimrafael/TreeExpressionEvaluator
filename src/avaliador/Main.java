@@ -9,8 +9,9 @@
  * https://youtu.be/Gt2yBZAhsGM?si=WNOSZxaiCWmrA-sO
  * https://www.geeksforgeeks.org/binary-tree-data-structure/
  * https://www.ime.usp.br/~pf/mac0122-2003/aulas/bin-trees.html
- * https://codegym.cc/pt/groups/posts/pt.307.java-queue-interface-e-suas-implementacoes
- * https://github.com/egonSchiele/grokking_algorithms/tree/master/06_breadth-first_search/java/01_breadth_first_search/src
+ * https://www.devmedia.com.br/como-trabalhar-com-a-classe-stack/2966
+ * https://docs.oracle.com/en/java/
+ * https://github.com/joaquimrafael/Expression_Evaluator
  * 
  *  e materias de sala:
  *  Revisão POO com Java (André Kishimoto)
@@ -47,15 +48,35 @@ public class Main {
 			
 			switch(option) {
 			case 1:
+<<<<<<< HEAD
 				Scanner read = new Scanner(System.in);
 				System.out.println("Digite a expressão a ser avaliada: ");
 				expression = read.nextLine();
 				created = true;
+=======
+				while(true) {
+					Scanner read = new Scanner(System.in);
+					System.out.println("Digite a expressão a ser avaliada: ");
+					expression = read.nextLine();
+					
+					try {
+						Expression.evaluate(expression);
+						created = true;
+					}catch(RuntimeException e){
+						expression = "";
+						System.err.println(e);
+						continue;
+					}
+				
+					break;
+				}
+>>>>>>> b8898d703ba11d63bc079ca97f050703b63a47e0
 				break;
 			case 2:
 				if(!created) {
 					System.out.println("Primeiro insira a expressão a ser avaliada!");
 				}else {
+<<<<<<< HEAD
 					System.out.println(Expression.evaluate(expression));
 					if(Expression.evaluate(expression)) {
 						expression = Expression.clearString(expression);
@@ -63,6 +84,11 @@ public class Main {
 					}else {
 						throw new RuntimeException("Erro de sintaxe detectado");
 					}
+=======
+					expression = Expression.clearString(expression);
+					tree.setRoot(null);
+					tree = createBinaryTree(expression);
+>>>>>>> b8898d703ba11d63bc079ca97f050703b63a47e0
 				}
 				break;	
 			case 3:
