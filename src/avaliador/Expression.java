@@ -82,14 +82,13 @@ public class Expression {
 	}
 	
     private static boolean checkFloat(String s) {
-        boolean foundDot = false;
+        String operands = "+-/*";
         for(int i = 0;i < s.length();i++) {
             char current = s.charAt(i);
             if(current == '.') {
-                if(foundDot || i == 0 || i == s.length() - 1 || !Character.isDigit(s.charAt(i - 1)) || !Character.isDigit(s.charAt(i + 1))) {
+                if(i == 0 || i == s.length() - 1 || operands.contains(String.valueOf(s.charAt(i+1))) || operands.contains(String.valueOf(s.charAt(i+1)))) {
                     throw new RuntimeException("Existe número Float inválido!");
                 }
-                foundDot = true;
             }
         }
         return(true);
