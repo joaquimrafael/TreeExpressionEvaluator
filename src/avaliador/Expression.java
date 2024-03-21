@@ -22,66 +22,72 @@ package avaliador;
 
 import java.util.Stack;
 
-import java.util.PriorityQueue;
 import java.util.List;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class Expression {
-	public static boolean evaluate(StringBuilder sb) {
-		sb = clearString(sb);
-		return(checkBrackets(sb) && checkContent(sb) && checkFloat(sb) && checkOperands(sb));
+	public static boolean evaluate(String s) {
+		s = clearString(s);
+		System.out.println(s);
+		try {
+			checkBrackets(s); checkContent(s); checkFloat(s); checkOperands(s);
+		}catch(RuntimeException e) {
+			throw new RuntimeException(e);
+		}
+		return(true);
 	}
 	
-	private static boolean checkBrackets(StringBuilder sb) {
-		Stack<Character> s = new Stack<Character>();
-		for(int i=0;i<sb.length();i++) {
-			if(sb.charAt(i) == '(') {
-				s.push(sb.charAt(i));
+	private static boolean checkBrackets(String s) {
+		Stack<Character> stack = new Stack<Character>();
+		for(int i=0;i<s.length();i++) {
+			if(s.charAt(i) == '(') {
+				stack.push(s.charAt(i));
 			}else {
-				if(sb.charAt(i) == ')') {
-					if(s.isEmpty()) {
-						return(false);
+				if(s.charAt(i) == ')') {
+					if(stack.isEmpty()) {
+						throw new RuntimeException("Fechamendo de parenteses incorreto");
 					}
-					s.pop();
+					stack.pop();
 				}
 			}
 		}
-		return(s.isEmpty());
+		return(stack.isEmpty());
 	}
 	
-	private static StringBuilder clearString(StringBuilder sb) {
-		String s = sb.toString().trim();
-		sb.setLength(0);
+	public static String clearString(String s) {
+		s = s.trim();
+		StringBuilder sb = new StringBuilder();
 		sb.append(s);
 		int length = sb.length();
 		for(int i=0;i<length;i++) {
 			if(sb.charAt(i)==' ' || sb.charAt(i) == '\t' || sb.charAt(i) ==  '	') {
 				sb.deleteCharAt(i);
+				length = sb.length();
 			}
 		}
-		return(sb);
+		s = sb.toString();
+		return(s);
 	}
 	
-	private static boolean checkContent(StringBuilder sb) {
+	private static boolean checkContent(String s) {
 		List<Character> l = new ArrayList<>();
 		l.add('+');l.add('-');l.add('*');l.add('/');l.add('(');l.add(')');l.add('.');
-		for(int i=0;i<sb.length();i++) {
-			Character c = sb.charAt(i);
+		for(int i=0;i<s.length();i++) {
+			Character c = s.charAt(i);
 			if(!Character.isDigit(c) && !l.contains(c)) {
-				return(false);
+				throw new RuntimeException("O caractere "+ c + " é inválido!");
 			}
 		}
 		return(true);
 	}
 	
-    private static boolean checkFloat(StringBuilder sb) {
+    private static boolean checkFloat(String s) {
         boolean foundDot = false;
-        for(int i = 0;i < sb.length();i++) {
-            char current = sb.charAt(i);
+        for(int i = 0;i < s.length();i++) {
+            char current = s.charAt(i);
             if(current == '.') {
-                if(foundDot || i == 0 || i == sb.length() - 1 || !Character.isDigit(sb.charAt(i - 1)) || !Character.isDigit(sb.charAt(i + 1))) {
-                    return(false);
+                if(foundDot || i == 0 || i == s.length() - 1 || !Character.isDigit(s.charAt(i - 1)) || !Character.isDigit(s.charAt(i + 1))) {
+                    throw new RuntimeException("Existe número Float inválido!");
                 }
                 foundDot = true;
             }
@@ -89,13 +95,23 @@ public class Expression {
         return(true);
     }
     
-    public static String conversionPolishNotation(StringBuilder expression) {
+    public static String conversionPolishNotation(String expression) {
         Stack<Character> s = new Stack<>();
         String operands = "+-*/^";
         StringBuilder output = new StringBuilder();
         for (int i=0;i<expression.length();i++) {
             if (Character.isDigit(expression.charAt(i))) {
-                output.append(expression.charAt(i));
+            	if(i < expression.length() - 1 && expression.charAt(i + 1) == '.') {
+            		int j = i+2;
+            		while(j < expression.length() && (Character.isDigit(expression.charAt(j)) || expression.charAt(j) == '.')) {
+            			j++;
+            		}
+            		String substring = expression.substring(i,j);
+            		output.append(substring);
+            		i = j-1;
+            	}else if(Character.isDigit(expression.charAt(i))){
+            		output.append(expression.charAt(i));
+            	}
             } else if(operands.contains(String.valueOf(expression.charAt(i)))){
                 while(!s.isEmpty() && (precedence(expression.charAt(i))<=precedence(s.peek()))){
                     output.append(s.pop());
@@ -127,31 +143,10 @@ public class Expression {
             return 0;
         }
     }
-	
-    private static boolean checkOperands(StringBuilder sb) {
-    	String operands = "+-*/";
-    	Stack<Character> stack = new Stack<Character>();
-    	String s = conversionPolishNotation(sb);
-    	for(int i=0;i<s.length();i++) {
-    		if(operands.indexOf(s.charAt(i))==-1) {
-    			stack.push(s.charAt(i));
-    		}else {
-    			if(stack.size()<2) {
-    				return(false);
-    			}else {
-    				stack.pop();
-    				stack.pop();
-    				stack.push('R');
-    			}
-    		}
-    	}
-    	return(stack.size()==1);
-    }
     
-    public static List<String> tokenizer(StringBuilder sb) {
+    private static String[] tokenizer(String s) {
     	List<String> l = new ArrayList<String>();
     	String especial = "+-*/()";
-    	String s = sb.toString();
     	for(int i=0;i<s.length();i++) {
     		if(especial.indexOf(s.charAt(i))==-1) {
     			int startIndex = i;
@@ -167,9 +162,52 @@ public class Expression {
     			}
     		}
     	}
-    	return(l);
+    	String[] lstring = l.toArray(new String[0]);
+    	return(lstring);
     }
 	
+    public static String[] tokenizerPostOrder(String s) {
+		int index = 0;
+		String[] token = tokenizer(s);
+		s = conversionPolishNotation(s);
+		String[] tokenPostOrder = new String[token.length];
+	    for(int i = 0; i < s.length();i++) {
+	        for(int j = i+1; j<=s.length();j++) {
+	            String substring = s.substring(i,j);
+	            for(int k=0; k<token.length;k++) {
+	                if(substring.equals(token[k])) {
+	                    tokenPostOrder[index++] = substring;
+	                    token[k] = null;
+	                    break;
+	                }
+	            }
+	        }
+	    }
+	    return(tokenPostOrder);
+    }
+    
+    private static boolean checkOperands(String s) {
+    	String operands = "+-*/";
+    	Stack<String> stack = new Stack<String>();
+		String[] tokenPostOrder = tokenizerPostOrder(s);
+    	for(int i=0;i<tokenPostOrder.length;i++) {
+    		if(operands.indexOf(tokenPostOrder[i].charAt(0))==-1) {
+    			stack.push(tokenPostOrder[i]);
+    		}else {
+    			if(stack.size()<2) {
+    				return(false);
+    			}else {
+    				stack.pop();
+    				stack.pop();
+    				stack.push("R");
+    			}
+    		}
+    	}
+    	if(stack.size()!=1) {
+    		throw new RuntimeException("Operador com erro de sintaxe!");
+    	}
+    	return(true);
+    }
     
     public static boolean isNumber(String s) {
     	try {

@@ -17,7 +17,6 @@
  *  Herança em Java (André Kishimoto)
  *  Árvores - fundamentos (André Kishimoto)
  */
-
 package avaliador;
 
 public class Operador extends Node{
