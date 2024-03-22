@@ -193,8 +193,6 @@ public class Expression {
         while (!operatorStack.isEmpty()) {
             postfixList.add(operatorStack.pop());
         }
-        
-        System.out.println(postfixList);
 
         String[] postfixArray = new String[postfixList.size()];
         postfixList.toArray(postfixArray);
