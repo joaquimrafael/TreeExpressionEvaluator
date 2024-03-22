@@ -119,7 +119,6 @@ public class Main {
 		Stack<Node> stack = new Stack<Node>();
 		BinaryTree bt = new BinaryTree();
 		String[] tokenPostOrder = Expression.tokenizerPostOrder(s);
-		s = Expression.conversionPolishNotation(s);
 		for(int i=0;i<tokenPostOrder.length;i++) {
 			if(Expression.isNumber(tokenPostOrder[i])) {
 				stack.push(new Operando(Float.parseFloat(tokenPostOrder[i])));

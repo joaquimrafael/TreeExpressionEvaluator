@@ -136,6 +136,16 @@ public class Expression {
         }
     }
     
+    private static int precedence(String operator) {
+    	if (operator.equals("*") || operator.equals("/")) {
+            return 2;
+        }else if (operator.equals("+") || operator.equals("-")) {
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+    
     private static String[] tokenizer(String s) {
     	List<String> l = new ArrayList<String>();
     	String especial = "+-*/()";
@@ -149,9 +159,7 @@ public class Expression {
     			l.add(s.substring(startIndex,stopIndex));
     			i--;
     		}else {
-    			if(s.charAt(i) != '(' && s.charAt(i) != ')') {
     				l.add(String.valueOf(s.charAt(i)));
-    			}
     		}
     	}
     	String[] lstring = l.toArray(new String[0]);
@@ -159,24 +167,38 @@ public class Expression {
     }
 	
     public static String[] tokenizerPostOrder(String s) {
-		int index = 0;
-		String[] token = tokenizer(s);
-		s = conversionPolishNotation(s);
-		
-		String[] tokenPostOrder = new String[token.length];
-	    for(int i = 0; i < s.length();i++) {
-	        for(int j = i+1; j<=s.length();j++) {
-	            String substring = s.substring(i,j);
-	            for(int k=0; k<token.length;k++) {
-	                if(substring.equals(token[k])) {
-	                    tokenPostOrder[index++] = substring;
-	                    token[k] = null;
-	                    break;
-	                }
-	            }
-	        }
-	    }
-	    return(tokenPostOrder);
+        String[] token = tokenizer(s);
+        Stack<String> operatorStack = new Stack<>();
+        List<String> postfixList = new ArrayList<>();
+        String operands = "+-*/"; 
+        
+        for (String t : token) {
+            if (isNumber(t)) {
+                postfixList.add(t);
+            } else if (operands.contains(t)) {
+                while (!operatorStack.isEmpty() && precedence(operatorStack.peek()) >= precedence(t)) {
+                    postfixList.add(operatorStack.pop());
+                }
+                operatorStack.push(t);
+            } else if (t.equals("(")) {
+                operatorStack.push(t);
+            } else if (t.equals(")")) {
+                while (!operatorStack.isEmpty() && !operatorStack.peek().equals("(")) {
+                    postfixList.add(operatorStack.pop());
+                }
+                operatorStack.pop();
+            }
+        }
+
+        while (!operatorStack.isEmpty()) {
+            postfixList.add(operatorStack.pop());
+        }
+        
+        System.out.println(postfixList);
+
+        String[] postfixArray = new String[postfixList.size()];
+        postfixList.toArray(postfixArray);
+        return postfixArray;
     }
     
     private static boolean checkOperands(String s) {
@@ -211,3 +233,4 @@ public class Expression {
     	}
     }
 }
+
